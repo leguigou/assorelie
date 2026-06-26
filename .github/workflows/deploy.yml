@@ -1,0 +1,39 @@
+name: Deploy to OVH
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: 137.74.46.156
+          username: guillaume
+          password: ${{ secrets.OVH_PASSWORD }}
+          script: |
+            cd /home/guillaume/assorelie
+            git pull origin main
+            docker build -t assorelie:latest .
+            docker rm -f assorelie 2>/dev/null || true
+            docker run -d \
+              --name assorelie \
+              --restart unless-stopped \
+              --network dokploy-network \
+              --label 'traefik.enable=true' \
+              --label 'traefik.http.routers.assorelie.rule=Host(`assorelie.deloffre.fr`)' \
+              --label 'traefik.http.routers.assorelie.entrypoints=web' \
+              --label 'traefik.http.routers.assorelie-secure.rule=Host(`assorelie.deloffre.fr`)' \
+              --label 'traefik.http.routers.assorelie-secure.entrypoints=websecure' \
+              --label 'traefik.http.routers.assorelie-secure.tls=true' \
+              --label 'traefik.http.routers.assorelie-secure.tls.certResolver=letsencrypt' \
+              --label 'traefik.http.services.assorelie.loadbalancer.server.port=80' \
+              assorelie:latest
+            sleep 2
+            echo "✅ Deploy: $(curl -sL -o /dev/null -w '%{http_code}' https://assorelie.deloffre.fr)"
