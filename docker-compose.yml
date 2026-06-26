@@ -1,0 +1,17 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: assorelie
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    networks:
+      - dokploy-network
+    volumes:
+      - ./data:/var/www/html/data
+
+networks:
+  dokploy-network:
+    external: true

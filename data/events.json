@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "Soirée jeux de société",
+    "date": "2026-07-12",
+    "time": "18h00",
+    "location": "Toulon",
+    "description": "Venez passer une soirée conviviale autour des jeux de société ! Que vous soyez novice ou expert, il y en aura pour tous les goûts.",
+    "link": "https://www.helloasso.com/associations/assorelie/evenements/soiree-jeux"
+  },
+  {
+    "id": 2,
+    "title": "Balade côtière commentée",
+    "date": "2026-07-20",
+    "time": "09h00",
+    "location": "Le Pradet",
+    "description": "Balade découverte du littoral varois avec des arrêts commentés sur la faune, la flore et le patrimoine maritime.",
+    "link": "https://www.helloasso.com/associations/assorelie/evenements/balade-cotiere"
+  },
+  {
+    "id": 3,
+    "title": "Initiation langue des signes",
+    "date": "2026-08-02",
+    "time": "14h00",
+    "location": "Toulon",
+    "description": "Atelier découverte de la LSF pour apprendre les bases de la communication avec les personnes sourdes et malentendantes.",
+    "link": "https://www.helloasso.com/associations/assorelie/evenements/initiation-lsf"
+  },
+  {
+    "id": 4,
+    "title": "Apéro partagé mensuel",
+    "date": "2026-08-08",
+    "time": "19h00",
+    "location": "Toulon",
+    "description": "Notre apéro mensuel ouvert à tous ! Chacun amène un petit quelque chose à partager. Nouveaux visages bienvenus !",
+    "link": null
+  }
+]

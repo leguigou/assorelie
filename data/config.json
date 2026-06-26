@@ -1,0 +1,53 @@
+{
+  "association": {
+    "name": "ASSORELIE",
+    "slogan": "L'asso qui relie",
+    "tagline": "Créer du lien social • Partager des savoirs • Développer l'art et la culture • Sensibiliser à l'environnement",
+    "description": "ASSORELIE est une association loi 1901 basée à Toulon, créée en octobre 2024. Nous organisons des activités variées et accessibles à tous autour de valeurs de partage, de découverte et de convivialité.",
+    "bio": "🤝 Créer du lien social\n📚 Partager des savoirs et compétences\n🎨 Développer l'art et la culture\n🌱 Sensibiliser à l'environnement",
+    "rna": "W832022270",
+    "creation_date": "04/10/2024",
+    "city": "Toulon",
+    "zipcode": "83100",
+    "address": "1331 Boulevard des Armaris, 83100 Toulon",
+    "email": "assorelie83@gmail.com",
+    "phone": "07 59 57 69 16"
+  },
+  "social": {
+    "facebook": "https://www.facebook.com/p/Assorelie-61568471817454/",
+    "instagram": "https://www.instagram.com/assorelie/",
+    "helloasso": "https://www.helloasso.com/associations/assorelie"
+  },
+  "activities": [
+    {
+      "icon": "dice",
+      "title": "Jeux de société",
+      "description": "Soirées jeux conviviales pour petits et grands. Venez découvrir des jeux modernes et classiques dans une ambiance chaleureuse."
+    },
+    {
+      "icon": "tree",
+      "title": "Balades & nature",
+      "description": "Randonnées et balades commentées autour de Toulon pour découvrir le patrimoine naturel et sensibiliser à l'environnement."
+    },
+    {
+      "icon": "hands",
+      "title": "Langue des signes",
+      "description": "Initiation à la langue des signes française (LSF) pour favoriser l'inclusion et la communication avec les personnes sourdes et malentendantes."
+    },
+    {
+      "icon": "palette",
+      "title": "Art & culture",
+      "description": "Ateliers créatifs, sorties culturelles, expositions et rencontres autour de l'art sous toutes ses formes."
+    },
+    {
+      "icon": "glass",
+      "title": "Apéros partagés",
+      "description": "Moments de convivialité et d'échange autour d'un verre partagé. L'occasion idéale pour faire de nouvelles rencontres."
+    },
+    {
+      "icon": "sparkles",
+      "title": "Événements thématiques",
+      "description": "Soirées à thème, ateliers bien-être, découvertes insolites — ésotérisme, développement personnel, rêves et bien plus."
+    }
+  ]
+}
