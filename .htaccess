@@ -1,9 +1,5 @@
 RewriteEngine On
 
-# HTTPS
-RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
-
 # Cache-Control for static assets
 <FilesMatch "\.(css|js|webp|jpg|jpeg|png|gif|ico|svg|woff2)$">
   Header set Cache-Control "max-age=31536000, public"
