@@ -55,7 +55,7 @@ def liste_evenements() -> str:
         if isinstance(e, dict):
             e["past"] = e.get("date", "") < now
     events = [e for e in events if isinstance(e, dict)]
-    events.sort(key=lambda e: e.get("date", ""))
+    events.sort(key=lambda e: e.get("date", ""), reverse=True)
     return json.dumps({"evenements": events, "total": len(events)}, ensure_ascii=False, indent=2)
 
 
