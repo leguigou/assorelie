@@ -43,7 +43,7 @@ def _save(filename: str, data: Any) -> None:
 
 # ─── MCP Server ─────────────────────────────────────────────────────────
 
-mcp = FastMCP("ASSORELIE", port=PORT)
+mcp = FastMCP("ASSORELIE", port=PORT, host="0.0.0.0")
 
 
 @mcp.tool()
@@ -51,9 +51,12 @@ def liste_evenements() -> str:
     """Liste les événements à venir de l'association"""
     events = _load("events.json")
     now = datetime.now().strftime("%Y-%m-%d")
-    upcoming = [e for e in events if isinstance(e, dict) and e.get("date", "") >= now]
-    upcoming.sort(key=lambda e: e.get("date", ""))
-    return json.dumps({"evenements": upcoming, "total": len(upcoming)}, ensure_ascii=False, indent=2)
+    for e in events:
+        if isinstance(e, dict):
+            e["past"] = e.get("date", "") < now
+    events = [e for e in events if isinstance(e, dict)]
+    events.sort(key=lambda e: e.get("date", ""))
+    return json.dumps({"evenements": events, "total": len(events)}, ensure_ascii=False, indent=2)
 
 
 @mcp.tool()
@@ -160,6 +163,6 @@ if __name__ == "__main__":
     if "--http" in sys.argv:
         print(f"🌐 MCP Server: http://0.0.0.0:{PORT}", file=sys.stderr)
         print(f"🔑 Auth: {MCP_API_KEY}", file=sys.stderr)
-        mcp.run(transport="sse", host="0.0.0.0")
+        mcp.run(transport="sse")
     else:
         mcp.run(transport="stdio")

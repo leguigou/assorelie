@@ -69,23 +69,24 @@ function loadEvents() {
         const dayNum = String(d.getDate()).padStart(2, '0');
         const month = months[d.getMonth()];
         const hasLink = e.link && e.link.length > 0;
+        const isPast = e.past === true;
 
         return `
-          <div class="event-card bg-white rounded-xl p-5 mb-4 flex items-start gap-4 reveal">
+          <div class="event-card bg-white rounded-xl p-5 mb-4 flex items-start gap-4 reveal ${isPast ? 'opacity-40' : ''}">
             <div class="text-center min-w-[60px]">
-              <div class="text-xs uppercase font-bold text-rose-400">${dayName}</div>
-              <div class="text-2xl font-bold text-gray-800">${dayNum}</div>
-              <div class="text-xs font-medium text-gray-500">${month}</div>
+              <div class="text-xs uppercase font-bold ${isPast ? 'text-gray-300' : 'text-rose-400'}">${dayName}</div>
+              <div class="text-2xl font-bold ${isPast ? 'text-gray-400' : 'text-gray-800'}">${dayNum}</div>
+              <div class="text-xs font-medium ${isPast ? 'text-gray-300' : 'text-gray-500'}">${month}</div>
             </div>
             <div class="flex-1">
-              <h3 class="font-semibold text-gray-800 text-lg">${e.title}</h3>
-              <p class="text-gray-500 text-sm mt-1">${e.description}</p>
+              <h3 class="font-semibold text-lg ${isPast ? 'text-gray-400' : 'text-gray-800'}">${e.title}</h3>
+              <p class="text-sm mt-1 ${isPast ? 'text-gray-300' : 'text-gray-500'}">${e.description}</p>
               <div class="flex items-center gap-4 mt-2 text-sm text-gray-400">
                 <span>🕐 ${e.time}</span>
                 <span>📍 ${e.location}</span>
               </div>
             </div>
-            ${hasLink
+            ${hasLink && !isPast
               ? `<a href="${e.link}" target="_blank" rel="noopener" class="shrink-0 mt-1 px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-500 rounded-lg text-sm font-medium transition-colors">Je participe →</a>`
               : ''
             }

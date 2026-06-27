@@ -24,11 +24,15 @@ if ($events === null) {
   exit;
 }
 
-// Filtrer : ne garder que les événements à venir ou du jour
+// Ne pas filtrer : on garde tout, passé et futur
 $today = date('Y-m-d');
-$events = array_filter($events, fn($e) => $e['date'] >= $today);
 
-// Trier par date croissante
+// Ajouter le flag 'past' et trier par date croissante
+foreach ($events as &$e) {
+  $e['past'] = $e['date'] < $today;
+}
+unset($e);
+
 usort($events, fn($a, $b) => strcmp($a['date'], $b['date']));
 
 echo json_encode(array_values($events), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
