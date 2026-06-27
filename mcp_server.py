@@ -160,6 +160,6 @@ if __name__ == "__main__":
     if "--http" in sys.argv:
         print(f"🌐 MCP Server: http://0.0.0.0:{PORT}", file=sys.stderr)
         print(f"🔑 Auth: {MCP_API_KEY}", file=sys.stderr)
-        mcp.run(transport="sse")
+        mcp.run(transport="sse", host="0.0.0.0")
     else:
         mcp.run(transport="stdio")
