@@ -16,8 +16,9 @@ RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/Allo
 COPY . /var/www/html/
 
 # Créer le dossier data avec les bons droits pour l'écriture (formulaire)
-RUN chown -R www-data:www-data /var/www/html/data && \
-    chmod 755 /var/www/html/data
+RUN find /var/www/html -type d -exec chmod 755 {} \; && \
+    find /var/www/html -type f -exec chmod 644 {} \; && \
+    chown -R www-data:www-data /var/www/html/data
 
 # Configuration du VirtualHost
 RUN echo '<VirtualHost *:80>\n\

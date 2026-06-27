@@ -1,5 +1,5 @@
 services:
-  app:
+  web:
     build:
       context: .
       dockerfile: Dockerfile
@@ -11,6 +11,33 @@ services:
       - dokploy-network
     volumes:
       - ./data:/var/www/html/data
+      - ./assets/images/gallery:/var/www/html/assets/images/gallery
+
+  mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile.mcp
+    container_name: assorelie-mcp
+    restart: unless-stopped
+    expose:
+      - "8921"
+    networks:
+      - dokploy-network
+    volumes:
+      - ./data:/app/data
+      - ./assets/images/gallery:/app/assets/images/gallery
+    environment:
+      - MCP_API_KEY=${MCP_API_KEY:-assorelie-mcp-dev}
+      - MCP_PORT=8921
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.assorelie-mcp.rule=Host(`mcp.assorelie.deloffre.fr`)"
+      - "traefik.http.routers.assorelie-mcp.entrypoints=web"
+      - "traefik.http.routers.assorelie-mcp-secure.rule=Host(`mcp.assorelie.deloffre.fr`)"
+      - "traefik.http.routers.assorelie-mcp-secure.entrypoints=websecure"
+      - "traefik.http.routers.assorelie-mcp-secure.tls=true"
+      - "traefik.http.routers.assorelie-mcp-secure.tls.certResolver=letsencrypt"
+      - "traefik.http.services.assorelie-mcp.loadbalancer.server.port=8921"
 
 networks:
   dokploy-network:
