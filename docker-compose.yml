@@ -5,8 +5,8 @@ services:
       dockerfile: Dockerfile
     container_name: assorelie
     restart: unless-stopped
-    ports:
-      - "80:80"
+    expose:
+      - "80"
     networks:
       - dokploy-network
     volumes:
