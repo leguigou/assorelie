@@ -10,8 +10,8 @@ services:
     networks:
       - dokploy-network
     volumes:
-      - ./data:/var/www/html/data
-      - ./assets/images/gallery:/var/www/html/assets/images/gallery
+      - /home/guillaume/assorelie/data:/var/www/html/data
+      - /home/guillaume/assorelie/assets/images/gallery:/var/www/html/assets/images/gallery
 
 networks:
   dokploy-network:
