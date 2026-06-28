@@ -1,50 +1,3 @@
-<!-- ===== VALEURS ===== -->
-<section class="py-20 bg-white">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="text-center mb-16 reveal">
-      <span class="text-rose-400 font-semibold text-sm uppercase tracking-widest">Nos valeurs</span>
-      <h2 class="text-4xl font-bold font-quicksand text-gray-800 mt-3">Nos 4 piliers</h2>
-      <p class="text-gray-500 mt-3 max-w-2xl mx-auto">
-        Ce qui nous anime au quotidien, ce qui fait d'ASSORELIE une association unique.
-      </p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-      <div class="text-center reveal p-6">
-        <div class="w-16 h-16 bg-rose-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-          <span class="text-3xl">🤝</span>
-        </div>
-        <h3 class="font-bold text-lg text-gray-800 mb-2">Lien social</h3>
-        <p class="text-gray-500 text-sm">Créer des rencontres et tisser des liens entre les personnes de tous horizons.</p>
-      </div>
-
-      <div class="text-center reveal p-6">
-        <div class="w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-          <span class="text-3xl">📚</span>
-        </div>
-        <h3 class="font-bold text-lg text-gray-800 mb-2">Savoirs & compétences</h3>
-        <p class="text-gray-500 text-sm">Partager et transmettre des connaissances dans une démarche d'entraide.</p>
-      </div>
-
-      <div class="text-center reveal p-6">
-        <div class="w-16 h-16 bg-purple-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-          <span class="text-3xl">🎨</span>
-        </div>
-        <h3 class="font-bold text-lg text-gray-800 mb-2">Art & culture</h3>
-        <p class="text-gray-500 text-sm">Développer l'accès à l'art et à la culture pour tous.</p>
-      </div>
-
-      <div class="text-center reveal p-6">
-        <div class="w-16 h-16 bg-green-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-          <span class="text-3xl">🌱</span>
-        </div>
-        <h3 class="font-bold text-lg text-gray-800 mb-2">Environnement</h3>
-        <p class="text-gray-500 text-sm">Sensibiliser à la protection de notre environnement et du patrimoine naturel.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ===== ACTIVITÉS ===== -->
 <section id="activites" class="py-20 bg-warm-50">
   <div class="max-w-6xl mx-auto px-6">
@@ -56,16 +9,45 @@
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <?php $icons = ['🎲', '🌲', '🤟', '🎨', '🥂', '✨']; ?>
-      <?php foreach ($activities as $i => $activity): ?>
-      <div class="activity-card bg-white rounded-2xl p-6 shadow-sm border border-gray-100 reveal">
-        <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-4 bg-rose-50">
-          <?= $icons[$i] ?>
+    <?php
+    $activityVisuals = [
+        'dice' => ['image' => 'jeux-societe.webp', 'emoji' => '🎲', 'label' => 'Loisirs'],
+        'tree' => ['image' => 'balade-nature.webp', 'emoji' => '🌲', 'label' => 'Nature'],
+        'hands' => ['image' => 'langue-des-signes.webp', 'emoji' => '🤟', 'label' => 'Inclusion'],
+        'palette' => ['image' => 'atelier-creatif.webp', 'emoji' => '🎨', 'label' => 'Art'],
+        'glass' => ['image' => 'apero-partage.webp', 'emoji' => '🥂', 'label' => 'Convivialité'],
+        'sparkles' => ['image' => 'evenements-thematiques.webp', 'emoji' => '✨', 'label' => 'Thématique'],
+    ];
+    ?>
+
+    <div class="activity-grid">
+      <?php foreach ($activities as $activity): ?>
+      <?php
+      $visual = $activityVisuals[$activity['icon']] ?? [
+          'image' => 'hero-toulon.webp',
+          'emoji' => '♥',
+          'label' => 'ASSORELIE',
+      ];
+      ?>
+      <article class="activity-card reveal">
+        <div class="activity-media">
+          <img
+            src="assets/images/<?= htmlspecialchars($visual['image']) ?>"
+            alt="<?= htmlspecialchars($activity['title']) ?>"
+            loading="lazy"
+            width="1200"
+            height="800"
+          >
+          <span class="activity-badge">
+            <span aria-hidden="true"><?= $visual['emoji'] ?></span>
+            <?= htmlspecialchars($visual['label']) ?>
+          </span>
         </div>
-        <h3 class="font-bold text-lg text-gray-800 mb-2"><?= htmlspecialchars($activity['title']) ?></h3>
-        <p class="text-gray-500 text-sm leading-relaxed"><?= htmlspecialchars($activity['description']) ?></p>
-      </div>
+        <div class="activity-content">
+          <h3><?= htmlspecialchars($activity['title']) ?></h3>
+          <p><?= htmlspecialchars($activity['description']) ?></p>
+        </div>
+      </article>
       <?php endforeach; ?>
     </div>
   </div>

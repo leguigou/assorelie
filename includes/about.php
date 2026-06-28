@@ -39,15 +39,38 @@
           </p>
         </div>
 
-        <div class="story-values">
-          <div class="story-value">
-            <span class="story-value-icon" aria-hidden="true">♣</span>
-            <span><strong>Inclusion</strong><small>Ouverte à tous</small></span>
-          </div>
-          <div class="story-value">
-            <span class="story-value-icon" aria-hidden="true">◉</span>
-            <span><strong>Transmission</strong><small>Partage de savoirs</small></span>
-          </div>
+        <div class="story-pillars">
+          <article class="story-pillar story-pillar-social">
+            <div class="story-pillar-title">
+              <span aria-hidden="true">🤝</span>
+              <h3>Lien social</h3>
+            </div>
+            <p>Créer des rencontres et tisser des liens entre les personnes de tous horizons.</p>
+          </article>
+
+          <article class="story-pillar story-pillar-knowledge">
+            <div class="story-pillar-title">
+              <span aria-hidden="true">📖</span>
+              <h3>Savoirs</h3>
+            </div>
+            <p>Partager et transmettre des connaissances dans une démarche d'entraide.</p>
+          </article>
+
+          <article class="story-pillar story-pillar-culture">
+            <div class="story-pillar-title">
+              <span aria-hidden="true">🎨</span>
+              <h3>Art &amp; culture</h3>
+            </div>
+            <p>Développer l'accès à l'art et à la culture pour tous dans la région toulonnaise.</p>
+          </article>
+
+          <article class="story-pillar story-pillar-environment">
+            <div class="story-pillar-title">
+              <span aria-hidden="true">🌲</span>
+              <h3>Environnement</h3>
+            </div>
+            <p>Sensibiliser à la protection de notre environnement et du patrimoine naturel.</p>
+          </article>
         </div>
 
         <p class="story-legal">
