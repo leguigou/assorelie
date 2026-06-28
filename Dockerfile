@@ -17,10 +17,12 @@ RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/Allo
 
 # Copier les fichiers de l'application
 COPY . /var/www/html/
+COPY docker-entrypoint-app.sh /usr/local/bin/assorelie-entrypoint
 
 # Conserver les données initiales hors du volume persistant
 RUN mkdir -p /var/www/html/database/seeds && \
-    cp /var/www/html/data/*.json /var/www/html/database/seeds/
+    cp /var/www/html/data/*.json /var/www/html/database/seeds/ && \
+    chmod +x /usr/local/bin/assorelie-entrypoint
 
 # Créer le dossier data avec les bons droits pour SQLite
 RUN find /var/www/html -type d -exec chmod 755 {} \; && \
@@ -41,4 +43,5 @@ RUN echo '<VirtualHost *:80>\n\
 
 EXPOSE 80
 
+ENTRYPOINT ["assorelie-entrypoint"]
 CMD ["apache2-foreground"]

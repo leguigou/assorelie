@@ -8,6 +8,7 @@ services:
     expose:
       - "80"
     environment:
+      ASSORELIE_DATA_DIR: /var/www/html/data
       ASSORELIE_DB_PATH: /var/www/html/data/assorelie.sqlite
       ASSORELIE_SEED_DIR: /var/www/html/database/seeds
     networks:
@@ -25,6 +26,7 @@ services:
     expose:
       - "8921"
     environment:
+      ASSORELIE_DATA_DIR: /app/data
       ASSORELIE_DB_PATH: /app/data/assorelie.sqlite
       ASSORELIE_SEED_DIR: /app/database/seeds
       MCP_API_KEY: ${MCP_API_KEY}

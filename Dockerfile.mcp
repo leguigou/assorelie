@@ -3,19 +3,28 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
+# Le processus démarre en root pour réparer le volume, puis passe à www-data.
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends gosu && \
+    rm -rf /var/lib/apt/lists/*
+
 # Installer une version stable compatible avec l'authentification utilisée.
 # La future version 2 du SDK contient des changements incompatibles.
 RUN pip install --no-cache-dir "mcp>=1.27,<2" uvicorn
 
 # Copier le projet
 COPY . .
+COPY docker-entrypoint-mcp.sh /usr/local/bin/assorelie-mcp-entrypoint
 
 # Conserver les données initiales hors du volume persistant
-RUN mkdir -p database/seeds && cp data/*.json database/seeds/
+RUN mkdir -p database/seeds && \
+    cp data/*.json database/seeds/ && \
+    chmod +x /usr/local/bin/assorelie-mcp-entrypoint
 
 # Créer le dossier persistant utilisé par SQLite
 RUN mkdir -p data && chmod 775 data
 
 EXPOSE 8921
 
+ENTRYPOINT ["assorelie-mcp-entrypoint"]
 CMD ["python3", "mcp_server.py", "--http"]

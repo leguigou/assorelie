@@ -23,6 +23,7 @@ docker run -d \
   --name assorelie \
   --restart unless-stopped \
   --network dokploy-network \
+  --env ASSORELIE_DATA_DIR=/var/www/html/data \
   --env ASSORELIE_DB_PATH=/var/www/html/data/assorelie.sqlite \
   --env ASSORELIE_SEED_DIR=/var/www/html/database/seeds \
   --volume /home/guillaume/assorelie/data:/var/www/html/data \
