@@ -1073,7 +1073,4 @@ section[id] {
     animation: none !important;
   }
 
-  .hero-photo::before {
-    transform: scale(1.04);
-  }
 }

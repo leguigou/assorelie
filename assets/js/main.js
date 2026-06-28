@@ -232,15 +232,18 @@ function initSmoothScroll() {
 /* ===== Hero Parallax ===== */
 function initHeroParallax() {
   const hero = document.querySelector('.hero-photo');
-  if (!hero || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!hero) return;
 
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const intensity = reducedMotion ? 0.08 : 0.14;
+  const maximumOffset = reducedMotion ? 38 : 75;
   let ticking = false;
 
   const update = () => {
     const heroBottom = hero.offsetTop + hero.offsetHeight;
     const amount = window.scrollY < heroBottom
-      ? Math.min(window.scrollY * 0.1, 55)
-      : 55;
+      ? Math.min(window.scrollY * intensity, maximumOffset)
+      : maximumOffset;
 
     hero.style.setProperty('--hero-parallax-y', `${amount}px`);
     ticking = false;
