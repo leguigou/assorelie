@@ -140,14 +140,87 @@ function loadEvents() {
 }
 
 /* ===== Smooth Scroll ===== */
+let smoothScrollFrame = null;
+let restoreScrollBehavior = null;
+
+function stopSmoothScroll() {
+  if (smoothScrollFrame !== null) {
+    cancelAnimationFrame(smoothScrollFrame);
+    smoothScrollFrame = null;
+  }
+
+  if (restoreScrollBehavior !== null) {
+    document.documentElement.style.scrollBehavior = restoreScrollBehavior;
+    restoreScrollBehavior = null;
+  }
+}
+
+function animateScrollTo(target, hash) {
+  stopSmoothScroll();
+
+  const headerHeight = document.querySelector('.site-header')?.offsetHeight ?? 0;
+  const targetTop = target.id === 'accueil'
+    ? 0
+    : target.getBoundingClientRect().top + window.scrollY - headerHeight;
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  const destination = Math.max(0, Math.min(targetTop, maxScroll));
+  const start = window.scrollY;
+  const distance = destination - start;
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || Math.abs(distance) < 2) {
+    window.scrollTo(0, destination);
+    history.pushState(null, '', hash);
+    return;
+  }
+
+  const duration = Math.min(1050, Math.max(550, Math.abs(distance) * 0.55));
+  const startedAt = performance.now();
+
+  restoreScrollBehavior = document.documentElement.style.scrollBehavior;
+  document.documentElement.style.scrollBehavior = 'auto';
+
+  // Courbe ease-in-out : accélération douce, puis ralentissement progressif.
+  const easeInOutCubic = progress => progress < 0.5
+    ? 4 * progress * progress * progress
+    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+  const step = now => {
+    const progress = Math.min((now - startedAt) / duration, 1);
+    window.scrollTo(0, start + distance * easeInOutCubic(progress));
+
+    if (progress < 1) {
+      smoothScrollFrame = requestAnimationFrame(step);
+      return;
+    }
+
+    smoothScrollFrame = null;
+    document.documentElement.style.scrollBehavior = restoreScrollBehavior;
+    restoreScrollBehavior = null;
+    history.pushState(null, '', hash);
+  };
+
+  smoothScrollFrame = requestAnimationFrame(step);
+}
+
 function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
-      const target = document.querySelector(this.getAttribute('href'));
+      const hash = this.getAttribute('href');
+      if (!hash || hash === '#') return;
+
+      const target = document.getElementById(decodeURIComponent(hash.slice(1)));
       if (target) {
         e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        animateScrollTo(target, hash);
       }
     });
+  });
+
+  window.addEventListener('wheel', stopSmoothScroll, { passive: true });
+  window.addEventListener('touchstart', stopSmoothScroll, { passive: true });
+  window.addEventListener('keydown', event => {
+    if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(event.key)) {
+      stopSmoothScroll();
+    }
   });
 }
