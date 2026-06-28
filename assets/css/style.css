@@ -589,9 +589,15 @@ section[id] {
   gap: 0.65rem;
 }
 
-.story-pillar-title span {
-  font-size: 1.2rem;
-  line-height: 1;
+.story-pillar-icon {
+  width: 1.45rem;
+  height: 1.45rem;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .story-pillar-title h3 {
@@ -607,16 +613,16 @@ section[id] {
   line-height: 1.45;
 }
 
-.story-pillar-social .story-pillar-title h3,
-.story-pillar-culture .story-pillar-title h3 {
+.story-pillar-social .story-pillar-title,
+.story-pillar-culture .story-pillar-title {
   color: #bd3150;
 }
 
-.story-pillar-knowledge .story-pillar-title h3 {
+.story-pillar-knowledge .story-pillar-title {
   color: #a35400;
 }
 
-.story-pillar-environment .story-pillar-title h3 {
+.story-pillar-environment .story-pillar-title {
   color: #3f6d50;
 }
 
