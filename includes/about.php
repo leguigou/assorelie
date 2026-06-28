@@ -1,52 +1,60 @@
-<!-- ===== À PROPOS ===== -->
-<section id="a-propos" class="py-20 bg-warm-50">
-  <div class="max-w-4xl mx-auto px-6">
-    <div class="text-center mb-12 reveal">
-      <span class="text-rose-400 font-semibold text-sm uppercase tracking-widest">À propos</span>
-      <h2 class="text-4xl font-bold font-quicksand text-gray-800 mt-3">L'association</h2>
-    </div>
+<?php $displayCreationDate = str_replace('/', '.', $asso['creation_date']); ?>
 
-    <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 reveal">
-      <div class="prose max-w-none text-gray-600 leading-relaxed">
-        <p class="text-lg">
-          <strong>ASSORELIE</strong> est une association loi 1901 créée le <strong>4 octobre 2024</strong> à Toulon, 
-          sous le numéro RNA <strong>W832022270</strong>.
-        </p>
-        <p class="mt-4">
-          Notre mission : <strong>créer du lien social</strong> en proposant des activités accessibles, 
-          variées et bienveillantes. Nous croyons que chacun a quelque chose à apporter et à recevoir, 
-          et que la richesse d'une communauté réside dans la diversité des personnes qui la composent.
-        </p>
-        <p class="mt-4">
-          Que vous soyez Toulonnais de longue date ou nouvel arrivant, jeune ou moins jeune, 
-          en couple ou solo, vous trouverez chez ASSORELIE une porte ouverte et un sourire.
-        </p>
+<!-- ===== L'ESPRIT ASSORELIE ===== -->
+<section id="a-propos" class="story-section">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <div class="story-layout">
+      <div class="story-visual reveal">
+        <div class="story-photo-card">
+          <img src="assets/images/atelier-creatif.webp"
+               alt="Des participants de toutes générations réunis lors d'un atelier ASSORELIE"
+               width="1280" height="853" loading="lazy">
+        </div>
+
+        <div class="story-date-card">
+          <strong><?= htmlspecialchars($displayCreationDate) ?></strong>
+          <span>Date de création<br>de l'asso</span>
+        </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 pt-8 border-t border-gray-100">
-        <div>
-          <h3 class="font-semibold text-gray-800 mb-3">Informations</h3>
-          <ul class="space-y-2 text-sm text-gray-500">
-            <li><strong class="text-gray-600">RNA :</strong> <?= htmlspecialchars($asso['rna']) ?></li>
-            <li><strong class="text-gray-600">Création :</strong> <?= htmlspecialchars($asso['creation_date']) ?></li>
-            <li><strong class="text-gray-600">Ville :</strong> <?= htmlspecialchars($asso['city']) ?></li>
-            <li><strong class="text-gray-600">Adresse :</strong> <?= htmlspecialchars($asso['address']) ?></li>
-          </ul>
+      <div class="story-content reveal">
+        <span class="story-eyebrow">L'esprit ASSORELIE</span>
+        <h2>Des moments qui nous relient au quotidien</h2>
+
+        <div class="story-copy">
+          <p>
+            <strong>ASSORELIE</strong> est une association loi 1901 créée à
+            <?= htmlspecialchars($asso['city']) ?>. Notre mission est simple :
+            <strong>créer du lien social</strong> en proposant des activités
+            accessibles, variées et bienveillantes.
+          </p>
+          <p>
+            Nous croyons que chacun a quelque chose à apporter et à recevoir,
+            et que la richesse d'une communauté réside dans la diversité des
+            personnes qui la composent.
+          </p>
+          <p>
+            Que vous soyez Toulonnais de longue date ou nouvel arrivant, jeune
+            ou moins jeune, vous trouverez chez nous une porte ouverte et un sourire.
+          </p>
         </div>
-        <div>
-          <h3 class="font-semibold text-gray-800 mb-3">Nous suivre</h3>
-          <div class="flex flex-wrap gap-3">
-            <a href="<?= htmlspecialchars($social['instagram']) ?>" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl text-sm font-medium hover:opacity-90 transition-opacity">
-              📸 Instagram
-            </a>
-            <a href="<?= htmlspecialchars($social['facebook']) ?>" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl text-sm font-medium hover:opacity-90 transition-opacity">
-              👍 Facebook
-            </a>
-            <a href="<?= htmlspecialchars($social['helloasso']) ?>" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2 bg-teal-500 text-white rounded-xl text-sm font-medium hover:opacity-90 transition-opacity">
-              💚 HelloAsso
-            </a>
+
+        <div class="story-values">
+          <div class="story-value">
+            <span class="story-value-icon" aria-hidden="true">♣</span>
+            <span><strong>Inclusion</strong><small>Ouverte à tous</small></span>
+          </div>
+          <div class="story-value">
+            <span class="story-value-icon" aria-hidden="true">◉</span>
+            <span><strong>Transmission</strong><small>Partage de savoirs</small></span>
           </div>
         </div>
+
+        <p class="story-legal">
+          RNA <?= htmlspecialchars($asso['rna']) ?> ·
+          <?= htmlspecialchars($asso['city']) ?> ·
+          <a href="<?= htmlspecialchars($social['instagram']) ?>" target="_blank" rel="noopener">Nous suivre sur Instagram →</a>
+        </p>
       </div>
     </div>
   </div>

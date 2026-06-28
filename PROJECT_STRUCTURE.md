@@ -50,9 +50,8 @@ assorelie/
 2. **Valeurs** — Les 4 piliers (lien social, savoirs, art/culture, environnement)
 3. **Activités** — Grille des activités avec icônes
 4. **Agenda** — Prochains événements (chargé en AJAX)
-5. **Galerie** — Photos (lazy load natif)
-6. **À propos** — RNA, date création, infos légales
-7. **Contact** — Formulaire + réseaux sociaux
+5. **L'esprit ASSORELIE** — Histoire, mission, création et engagements
+6. **Contact** — Formulaire + réseaux sociaux
 
 ## Déploiement
 

@@ -74,7 +74,6 @@ $activities = $config['activities'];
       <a href="#a-propos" class="nav-link">L'association</a>
       <a href="#activites" class="nav-link">Nos actions</a>
       <a href="#agenda" class="nav-link">Agenda</a>
-      <a href="#galerie" class="nav-link">En images</a>
       <a href="#contact" class="nav-link">Contact</a>
     </nav>
 
@@ -99,7 +98,6 @@ $activities = $config['activities'];
       <a href="#a-propos">L'association</a>
       <a href="#activites">Nos actions</a>
       <a href="#agenda">Agenda</a>
-      <a href="#galerie">En images</a>
       <a href="#contact">Contact</a>
       <a href="<?= htmlspecialchars($social['helloasso']) ?>" target="_blank" rel="noopener" class="mobile-support">
         ♥ Nous soutenir
