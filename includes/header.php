@@ -14,37 +14,8 @@
   <link rel="icon" type="image/webp" href="assets/images/logo-assorelie.webp">
   <link rel="preload" as="image" href="assets/images/hero-toulon.webp" type="image/webp">
 
-  <!-- Tailwind CSS via CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            rose: {
-              50: '#fff1f2',
-              100: '#ffe4e6',
-              200: '#fecdd3',
-              300: '#fda4af',
-              400: '#e85d75',
-              500: '#d14860',
-              600: '#b13c51',
-            },
-            warm: {
-              50: '#fff8f5',
-              100: '#fef0ec',
-              200: '#fde0d8',
-            }
-          },
-          fontFamily: {
-            quicksand: ['Quicksand', 'sans-serif'],
-            inter: ['Inter', 'sans-serif'],
-          }
-        }
-      }
-    }
-  </script>
   <script>document.documentElement.classList.add('js');</script>
+  <link rel="stylesheet" href="assets/css/tailwind.min.css">
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

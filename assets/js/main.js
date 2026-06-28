@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollReveal();
   loadEvents();
   initSmoothScroll();
+  initHeroParallax();
 });
 
 /* ===== Mobile Menu ===== */
@@ -167,13 +168,16 @@ function animateScrollTo(target, hash) {
   const start = window.scrollY;
   const distance = destination - start;
 
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || Math.abs(distance) < 2) {
+  if (Math.abs(distance) < 2) {
     window.scrollTo(0, destination);
     history.pushState(null, '', hash);
     return;
   }
 
-  const duration = Math.min(1050, Math.max(550, Math.abs(distance) * 0.55));
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const duration = reducedMotion
+    ? Math.min(360, Math.max(220, Math.abs(distance) * 0.18))
+    : Math.min(1050, Math.max(550, Math.abs(distance) * 0.55));
   const startedAt = performance.now();
 
   restoreScrollBehavior = document.documentElement.style.scrollBehavior;
@@ -223,4 +227,31 @@ function initSmoothScroll() {
       stopSmoothScroll();
     }
   });
+}
+
+/* ===== Hero Parallax ===== */
+function initHeroParallax() {
+  const hero = document.querySelector('.hero-photo');
+  if (!hero || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  let ticking = false;
+
+  const update = () => {
+    const heroBottom = hero.offsetTop + hero.offsetHeight;
+    const amount = window.scrollY < heroBottom
+      ? Math.min(window.scrollY * 0.1, 55)
+      : 55;
+
+    hero.style.setProperty('--hero-parallax-y', `${amount}px`);
+    ticking = false;
+  };
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  }, { passive: true });
+
+  update();
 }

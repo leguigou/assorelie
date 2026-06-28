@@ -162,13 +162,32 @@ section[id] {
 }
 
 .hero-photo {
+  --hero-parallax-y: 0px;
+  position: relative;
+  isolation: isolate;
   min-height: calc(100vh - 80px);
   background-color: #fffaf4;
-  background-image:
-    linear-gradient(90deg, #fffaf4 0%, rgba(255, 250, 244, 0.98) 30%, rgba(255, 250, 244, 0.82) 46%, rgba(255, 250, 244, 0.08) 70%),
-    url('../images/hero-toulon.webp');
-  background-position: center;
-  background-size: cover;
+}
+
+.hero-photo::before,
+.hero-photo::after {
+  position: absolute;
+  content: '';
+  pointer-events: none;
+}
+
+.hero-photo::before {
+  inset: -6%;
+  z-index: -2;
+  background: url('../images/hero-toulon.webp') center / cover no-repeat;
+  transform: translate3d(0, var(--hero-parallax-y), 0) scale(1.04);
+  will-change: transform;
+}
+
+.hero-photo::after {
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, #fffaf4 0%, rgba(255, 250, 244, 0.98) 30%, rgba(255, 250, 244, 0.82) 46%, rgba(255, 250, 244, 0.08) 70%);
 }
 
 .hero-copy {
@@ -903,12 +922,13 @@ section[id] {
 }
 
 @media (max-width: 1023px) {
-  .hero-photo {
-    min-height: auto;
-    background-image:
-      linear-gradient(180deg, rgba(255, 250, 244, 0.98) 0%, rgba(255, 250, 244, 0.93) 48%, rgba(255, 250, 244, 0.26) 100%),
-      url('../images/hero-toulon.webp');
+  .hero-photo::before {
     background-position: 68% center;
+  }
+
+  .hero-photo::after {
+    min-height: auto;
+    background: linear-gradient(180deg, rgba(255, 250, 244, 0.98) 0%, rgba(255, 250, 244, 0.93) 48%, rgba(255, 250, 244, 0.26) 100%);
   }
 
   .hero-copy {
@@ -1051,5 +1071,9 @@ section[id] {
   .animate-bounce,
   .hero-scroll-icon {
     animation: none !important;
+  }
+
+  .hero-photo::before {
+    transform: scale(1.04);
   }
 }
