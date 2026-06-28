@@ -47,29 +47,93 @@ function assorelie_db(): PDO
 function assorelie_initialize_database(PDO $pdo): void
 {
     $version = (int) $pdo->query('PRAGMA user_version')->fetchColumn();
-    if ($version >= 1) {
+    if ($version >= 2) {
         return;
     }
 
-    $schema = file_get_contents(__DIR__ . '/../database/schema.sql');
-    if ($schema === false) {
-        throw new RuntimeException('Schéma SQLite introuvable.');
+    if ($version === 0) {
+        $schema = file_get_contents(__DIR__ . '/../database/schema.sql');
+        if ($schema === false) {
+            throw new RuntimeException('Schéma SQLite introuvable.');
+        }
+
+        $pdo->beginTransaction();
+
+        try {
+            $pdo->exec($schema);
+            assorelie_import_json_data($pdo);
+            $pdo->exec('PRAGMA user_version = 2');
+            $pdo->commit();
+
+            @chmod(assorelie_db_path(), 0664);
+        } catch (Throwable $error) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            throw $error;
+        }
+
+        return;
     }
 
-    $pdo->beginTransaction();
+    assorelie_migrate_database_to_v2($pdo);
+}
+
+function assorelie_migrate_database_to_v2(PDO $pdo): void
+{
+    $pdo->exec('BEGIN IMMEDIATE');
 
     try {
-        $pdo->exec($schema);
-        assorelie_import_json_data($pdo);
-        $pdo->exec('PRAGMA user_version = 1');
-        $pdo->commit();
+        $version = (int) $pdo->query('PRAGMA user_version')->fetchColumn();
+        if ($version >= 2) {
+            $pdo->exec('COMMIT');
+            return;
+        }
 
-        @chmod(assorelie_db_path(), 0664);
+        $columns = $pdo->query('PRAGMA table_info(events)')
+            ->fetchAll(PDO::FETCH_COLUMN, 1);
+
+        if (!in_array('image', $columns, true)) {
+            $pdo->exec('ALTER TABLE events ADD COLUMN image TEXT');
+        }
+        if (!in_array('image_alt', $columns, true)) {
+            $pdo->exec('ALTER TABLE events ADD COLUMN image_alt TEXT');
+        }
+
+        assorelie_seed_event_images($pdo);
+        $pdo->exec('PRAGMA user_version = 2');
+        $pdo->exec('COMMIT');
     } catch (Throwable $error) {
-        if ($pdo->inTransaction()) {
-            $pdo->rollBack();
+        try {
+            $pdo->exec('ROLLBACK');
+        } catch (Throwable) {
+            // La transaction a peut-être déjà été interrompue par SQLite.
         }
         throw $error;
+    }
+}
+
+function assorelie_seed_event_images(PDO $pdo): void
+{
+    $images = [
+        1 => ['assets/images/jeux-societe.webp', 'Participants réunis autour d’un jeu de société'],
+        2 => ['assets/images/balade-nature.webp', 'Balade en groupe sur le littoral varois'],
+        3 => ['assets/images/atelier-creatif.webp', 'Atelier inclusif et créatif entre plusieurs générations'],
+        4 => ['assets/images/apero-partage.webp', 'Apéro partagé au coucher du soleil'],
+    ];
+
+    $statement = $pdo->prepare(
+        'UPDATE events
+         SET image = :image, image_alt = :image_alt
+         WHERE id = :id AND (image IS NULL OR image = "")'
+    );
+
+    foreach ($images as $id => [$image, $imageAlt]) {
+        $statement->execute([
+            ':id' => $id,
+            ':image' => $image,
+            ':image_alt' => $imageAlt,
+        ]);
     }
 }
 
@@ -123,9 +187,9 @@ function assorelie_import_json_data(PDO $pdo): void
     if (!assorelie_meta_exists($pdo, 'events_json_imported')) {
         $eventStatement = $pdo->prepare(
             'INSERT OR IGNORE INTO events
-                (id, title, date, time, location, description, link)
+                (id, title, date, time, location, description, link, image, image_alt)
              VALUES
-                (:id, :title, :date, :time, :location, :description, :link)'
+                (:id, :title, :date, :time, :location, :description, :link, :image, :image_alt)'
         );
 
         foreach (assorelie_read_json_file($eventsPath, []) as $event) {
@@ -137,8 +201,12 @@ function assorelie_import_json_data(PDO $pdo): void
                 ':location' => (string) ($event['location'] ?? 'Toulon'),
                 ':description' => (string) ($event['description'] ?? ''),
                 ':link' => $event['link'] ?? null,
+                ':image' => $event['image'] ?? null,
+                ':image_alt' => $event['image_alt'] ?? null,
             ]);
         }
+
+        assorelie_seed_event_images($pdo);
 
         assorelie_set_meta($pdo, 'events_json_imported', date(DATE_ATOM));
     }

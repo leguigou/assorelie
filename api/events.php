@@ -13,7 +13,7 @@ require_once __DIR__ . '/../includes/database.php';
 try {
   $today = date('Y-m-d');
   $statement = assorelie_db()->prepare(
-    'SELECT id, title, date, time, location, description, link,
+    'SELECT id, title, date, time, location, description, link, image, image_alt,
             CASE WHEN date < :today THEN 1 ELSE 0 END AS past
      FROM events
      ORDER BY

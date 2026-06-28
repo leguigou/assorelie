@@ -51,6 +51,26 @@ function initScrollReveal() {
 }
 
 /* ===== Agenda AJAX ===== */
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+function safeUrl(value, fallback = '') {
+  if (!value) return fallback;
+
+  try {
+    const url = new URL(String(value), window.location.origin);
+    return ['http:', 'https:'].includes(url.protocol) ? url.href : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 function loadEvents() {
   const container = document.getElementById('events-container');
   if (!container) return;
@@ -60,7 +80,11 @@ function loadEvents() {
   fetch('api/events.php')
     .then(res => res.json())
     .then(events => {
-      if (!events.length) {
+      const upcomingEvents = Array.isArray(events)
+        ? events.filter(event => event.past !== true)
+        : [];
+
+      if (!upcomingEvents.length) {
         container.innerHTML = '<p class="text-gray-500 text-center py-8">Aucun événement à venir pour le moment. Revenez bientôt !</p>';
         return;
       }
@@ -68,34 +92,42 @@ function loadEvents() {
       const months = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
       const days = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
 
-      container.innerHTML = events.map(e => {
-        const d = new Date(e.date);
+      container.innerHTML = upcomingEvents.map((e, index) => {
+        const d = new Date(`${e.date}T12:00:00`);
         const dayName = days[d.getDay()];
         const dayNum = String(d.getDate()).padStart(2, '0');
         const month = months[d.getMonth()];
-        const hasLink = e.link && e.link.length > 0;
-        const isPast = e.past === true;
+        const eventLink = safeUrl(e.link);
+        const image = safeUrl(
+          e.image,
+          `${window.location.origin}/assets/images/hero-toulon.webp`
+        );
+        const imageAlt = e.image_alt || `Ambiance de l'événement ${e.title}`;
 
         return `
-          <div class="event-card bg-white rounded-xl p-5 mb-4 flex items-start gap-4 reveal ${isPast ? 'opacity-40' : ''}">
-            <div class="text-center min-w-[60px]">
-              <div class="text-xs uppercase font-bold ${isPast ? 'text-gray-300' : 'text-rose-400'}">${dayName}</div>
-              <div class="text-2xl font-bold ${isPast ? 'text-gray-400' : 'text-gray-800'}">${dayNum}</div>
-              <div class="text-xs font-medium ${isPast ? 'text-gray-300' : 'text-gray-500'}">${month}</div>
-            </div>
-            <div class="flex-1">
-              <h3 class="font-semibold text-lg ${isPast ? 'text-gray-400' : 'text-gray-800'}">${e.title}</h3>
-              <p class="text-sm mt-1 ${isPast ? 'text-gray-300' : 'text-gray-500'}">${e.description}</p>
-              <div class="flex items-center gap-4 mt-2 text-sm text-gray-400">
-                <span>🕐 ${e.time}</span>
-                <span>📍 ${e.location}</span>
+          <article class="event-card ${index === 0 ? 'event-card-featured' : ''} reveal">
+            <div class="event-media">
+              <img src="${escapeHtml(image)}" alt="${escapeHtml(imageAlt)}" loading="${index === 0 ? 'eager' : 'lazy'}">
+              <div class="event-date">
+                <span>${escapeHtml(dayName)}</span>
+                <strong>${escapeHtml(dayNum)}</strong>
+                <small>${escapeHtml(month)}</small>
               </div>
             </div>
-            ${hasLink && !isPast
-              ? `<a href="${e.link}" target="_blank" rel="noopener" class="shrink-0 mt-1 px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-500 rounded-lg text-sm font-medium transition-colors">Je participe →</a>`
-              : ''
-            }
-          </div>
+            <div class="event-body">
+              ${index === 0 ? '<span class="event-next">Prochain rendez-vous</span>' : ''}
+              <h3>${escapeHtml(e.title)}</h3>
+              <div class="event-meta">
+                <span>🕐 ${escapeHtml(e.time)}</span>
+                <span>📍 ${escapeHtml(e.location)}</span>
+              </div>
+              <p>${escapeHtml(e.description)}</p>
+              ${eventLink
+                ? `<a href="${escapeHtml(eventLink)}" target="_blank" rel="noopener" class="event-action">Je participe <span>→</span></a>`
+                : '<span class="event-contact-note">Contactez-nous pour participer</span>'
+              }
+            </div>
+          </article>
         `;
       }).join('');
 

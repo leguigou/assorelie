@@ -80,7 +80,7 @@ def liste_evenements() -> str:
     with database() as connection:
         rows = connection.execute(
             """
-            SELECT id, title, date, time, location, description, link
+            SELECT id, title, date, time, location, description, link, image, image_alt
             FROM events
             ORDER BY
                 CASE WHEN date < ? THEN 1 ELSE 0 END ASC,
@@ -102,20 +102,31 @@ def liste_evenements() -> str:
 @mcp.tool()
 def ajouter_evenement(titre: str, date: str, description: str,
                        time: str = "18h00", location: str = "Toulon",
-                       link: str = "") -> str:
-    """Ajoute un événement à l'agenda"""
+                       link: str = "", image: str = "",
+                       image_alt: str = "") -> str:
+    """Ajoute un événement à l'agenda, avec une photo facultative."""
     with database() as connection:
         cursor = connection.execute(
             """
-            INSERT INTO events (title, date, time, location, description, link)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO events
+                (title, date, time, location, description, link, image, image_alt)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """,
-            (titre, date, time, location, description, link or None),
+            (
+                titre,
+                date,
+                time,
+                location,
+                description,
+                link or None,
+                image or None,
+                image_alt or None,
+            ),
         )
         event_id = cursor.lastrowid
         row = connection.execute(
             """
-            SELECT id, title, date, time, location, description, link
+            SELECT id, title, date, time, location, description, link, image, image_alt
             FROM events WHERE id = ?
             """,
             (event_id,),
@@ -129,8 +140,9 @@ def ajouter_evenement(titre: str, date: str, description: str,
 @mcp.tool()
 def modifier_evenement(id_event: int, titre: str = None, date: str = None,
                         time: str = None, location: str = None,
-                        description: str = None, link: str = None) -> str:
-    """Modifie un événement existant"""
+                        description: str = None, link: str = None,
+                        image: str = None, image_alt: str = None) -> str:
+    """Modifie uniquement les champs fournis pour un événement."""
     values = {
         "title": titre,
         "date": date,
@@ -138,6 +150,8 @@ def modifier_evenement(id_event: int, titre: str = None, date: str = None,
         "location": location,
         "description": description,
         "link": link,
+        "image": image,
+        "image_alt": image_alt,
     }
     updates = {column: value for column, value in values.items() if value is not None}
 
@@ -168,7 +182,7 @@ def modifier_evenement(id_event: int, titre: str = None, date: str = None,
 
         row = connection.execute(
             """
-            SELECT id, title, date, time, location, description, link
+            SELECT id, title, date, time, location, description, link, image, image_alt
             FROM events WHERE id = ?
             """,
             (id_event,),

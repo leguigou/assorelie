@@ -30,6 +30,8 @@ CREATE TABLE IF NOT EXISTS events (
     location TEXT NOT NULL DEFAULT 'Toulon',
     description TEXT NOT NULL DEFAULT '',
     link TEXT,
+    image TEXT,
+    image_alt TEXT,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

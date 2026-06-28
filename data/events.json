@@ -6,7 +6,9 @@
     "time": "18h00",
     "location": "Toulon",
     "description": "Venez passer une soirée conviviale autour des jeux de société ! Que vous soyez novice ou expert, il y en aura pour tous les goûts.",
-    "link": "https://www.helloasso.com/associations/assorelie/evenements/soiree-jeux"
+    "link": "https://www.helloasso.com/associations/assorelie/evenements/soiree-jeux",
+    "image": "assets/images/jeux-societe.webp",
+    "image_alt": "Participants réunis autour d’un jeu de société"
   },
   {
     "id": 2,
@@ -15,7 +17,9 @@
     "time": "09h00",
     "location": "Le Pradet",
     "description": "Balade découverte du littoral varois avec des arrêts commentés sur la faune, la flore et le patrimoine maritime.",
-    "link": "https://www.helloasso.com/associations/assorelie/evenements/balade-cotiere"
+    "link": "https://www.helloasso.com/associations/assorelie/evenements/balade-cotiere",
+    "image": "assets/images/balade-nature.webp",
+    "image_alt": "Balade en groupe sur le littoral varois"
   },
   {
     "id": 3,
@@ -24,7 +28,9 @@
     "time": "14h00",
     "location": "Toulon",
     "description": "Atelier découverte de la LSF pour apprendre les bases de la communication avec les personnes sourdes et malentendantes.",
-    "link": "https://www.helloasso.com/associations/assorelie/evenements/initiation-lsf"
+    "link": "https://www.helloasso.com/associations/assorelie/evenements/initiation-lsf",
+    "image": "assets/images/atelier-creatif.webp",
+    "image_alt": "Atelier inclusif et créatif entre plusieurs générations"
   },
   {
     "id": 4,
@@ -33,6 +39,8 @@
     "time": "19h00",
     "location": "Toulon",
     "description": "Notre apéro mensuel ouvert à tous ! Chacun amène un petit quelque chose à partager. Nouveaux visages bienvenus !",
-    "link": null
+    "link": null,
+    "image": "assets/images/apero-partage.webp",
+    "image_alt": "Apéro partagé au coucher du soleil"
   }
 ]

@@ -47,28 +47,86 @@ def database() -> Iterator[sqlite3.Connection]:
 
 def _initialize(connection: sqlite3.Connection) -> None:
     version = connection.execute("PRAGMA user_version").fetchone()[0]
-    if version >= 1:
+    if version >= 2:
         return
 
-    schema = SCHEMA_PATH.read_text(encoding="utf-8")
-    connection.execute("BEGIN IMMEDIATE")
-
-    try:
-        for statement in schema.split(";"):
-            if statement.strip():
-                connection.execute(statement)
-
-        _import_json_data(connection)
-        connection.execute("PRAGMA user_version = 1")
-        connection.commit()
+    if version == 0:
+        schema = SCHEMA_PATH.read_text(encoding="utf-8")
+        connection.execute("BEGIN IMMEDIATE")
 
         try:
-            DB_PATH.chmod(0o664)
-        except OSError:
-            pass
+            for statement in schema.split(";"):
+                if statement.strip():
+                    connection.execute(statement)
+
+            _import_json_data(connection)
+            connection.execute("PRAGMA user_version = 2")
+            connection.commit()
+
+            try:
+                DB_PATH.chmod(0o664)
+            except OSError:
+                pass
+        except Exception:
+            connection.rollback()
+            raise
+        return
+
+    _migrate_to_v2(connection)
+
+
+def _migrate_to_v2(connection: sqlite3.Connection) -> None:
+    connection.execute("BEGIN IMMEDIATE")
+    try:
+        version = connection.execute("PRAGMA user_version").fetchone()[0]
+        if version >= 2:
+            connection.commit()
+            return
+
+        columns = {
+            row[1] for row in connection.execute("PRAGMA table_info(events)")
+        }
+        if "image" not in columns:
+            connection.execute("ALTER TABLE events ADD COLUMN image TEXT")
+        if "image_alt" not in columns:
+            connection.execute("ALTER TABLE events ADD COLUMN image_alt TEXT")
+
+        _seed_event_images(connection)
+        connection.execute("PRAGMA user_version = 2")
+        connection.commit()
     except Exception:
         connection.rollback()
         raise
+
+
+def _seed_event_images(connection: sqlite3.Connection) -> None:
+    images = {
+        1: (
+            "assets/images/jeux-societe.webp",
+            "Participants réunis autour d’un jeu de société",
+        ),
+        2: (
+            "assets/images/balade-nature.webp",
+            "Balade en groupe sur le littoral varois",
+        ),
+        3: (
+            "assets/images/atelier-creatif.webp",
+            "Atelier inclusif et créatif entre plusieurs générations",
+        ),
+        4: (
+            "assets/images/apero-partage.webp",
+            "Apéro partagé au coucher du soleil",
+        ),
+    }
+    for event_id, (image, image_alt) in images.items():
+        connection.execute(
+            """
+            UPDATE events
+            SET image = ?, image_alt = ?
+            WHERE id = ? AND (image IS NULL OR image = '')
+            """,
+            (image, image_alt, event_id),
+        )
 
 
 def _import_json_data(connection: sqlite3.Connection) -> None:
@@ -106,8 +164,8 @@ def _import_json_data(connection: sqlite3.Connection) -> None:
             connection.execute(
                 """
                 INSERT OR IGNORE INTO events
-                    (id, title, date, time, location, description, link)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                    (id, title, date, time, location, description, link, image, image_alt)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     event.get("id"),
@@ -117,9 +175,12 @@ def _import_json_data(connection: sqlite3.Connection) -> None:
                     event.get("location", "Toulon"),
                     event.get("description", ""),
                     event.get("link"),
+                    event.get("image"),
+                    event.get("image_alt"),
                 ),
             )
 
+        _seed_event_images(connection)
         _set_meta(connection, "events_json_imported")
 
     if not _meta_exists(connection, "members_json_imported"):
