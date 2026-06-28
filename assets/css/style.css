@@ -1,7 +1,7 @@
 /* ===== ASSORELIE - Styles supplémentaires ===== */
 
 /* Police douce et chaleureuse */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@300;400;500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap');
 
 :root {
   --color-primary: #e85d75;
@@ -24,9 +24,309 @@ body {
   font-family: 'Quicksand', sans-serif;
 }
 
+section[id] {
+  scroll-margin-top: 80px;
+}
+
+/* Navigation */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 252, 248, 0.94);
+  border-bottom: 1px solid rgba(232, 93, 117, 0.08);
+  box-shadow: 0 8px 30px rgba(74, 47, 39, 0.04);
+  backdrop-filter: blur(16px);
+}
+
+.brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.brand-logo {
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 3px 12px rgba(52, 37, 32, 0.12);
+}
+
+.brand-link strong,
+.brand-link small {
+  display: block;
+}
+
+.brand-link strong {
+  color: #1f1b1a;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1.08rem;
+  letter-spacing: 0.02em;
+}
+
+.brand-link small {
+  color: var(--color-primary);
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.nav-link {
+  position: relative;
+  color: #3f3a38;
+  padding-block: 1.8rem;
+  transition: color 0.2s ease;
+}
+
+.nav-link::after {
+  position: absolute;
+  right: 0;
+  bottom: 1.15rem;
+  left: 0;
+  height: 2px;
+  background: var(--color-primary);
+  border-radius: 999px;
+  content: '';
+  opacity: 0;
+  transform: scaleX(0.4);
+  transition: 0.2s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--color-primary);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.header-cta {
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.75rem 1.15rem;
+  color: white;
+  background: linear-gradient(135deg, #ee4765, #e85d75);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(232, 93, 117, 0.24);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.header-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 11px 24px rgba(232, 93, 117, 0.32);
+}
+
+.menu-button {
+  padding: 0.65rem;
+  color: #302a28;
+  background: #fff;
+  border: 1px solid #f4ded8;
+  border-radius: 0.8rem;
+}
+
+.nav-mobile {
+  background: rgba(255, 252, 248, 0.98);
+  border-top: 1px solid #f9e7e2;
+}
+
+.nav-mobile a {
+  display: block;
+  padding: 0.7rem 0.85rem;
+  color: #3f3a38;
+  border-radius: 0.7rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.nav-mobile a:hover {
+  color: var(--color-primary);
+  background: #fff1f2;
+}
+
+.nav-mobile .mobile-support {
+  margin-top: 0.5rem;
+  color: #fff;
+  background: var(--color-primary);
+  text-align: center;
+}
+
 /* Hero */
 .hero-gradient {
   background: linear-gradient(135deg, #e85d75 0%, #f4a261 50%, #ffd166 100%);
+}
+
+.hero-photo {
+  min-height: calc(100vh - 80px);
+  background-color: #fffaf4;
+  background-image:
+    linear-gradient(90deg, #fffaf4 0%, rgba(255, 250, 244, 0.98) 30%, rgba(255, 250, 244, 0.82) 46%, rgba(255, 250, 244, 0.08) 70%),
+    url('../images/hero-toulon.webp');
+  background-position: center;
+  background-size: cover;
+}
+
+.hero-copy {
+  max-width: 580px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 1.4rem;
+  padding: 0.55rem 1rem;
+  color: #a53c51;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(232, 93, 117, 0.18);
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  box-shadow: 0 5px 18px rgba(106, 70, 57, 0.08);
+}
+
+.hero-badge span {
+  color: var(--color-primary);
+}
+
+.hero-copy h1 {
+  color: #171312;
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(3.7rem, 6.5vw, 6.1rem);
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  line-height: 0.95;
+}
+
+.hero-slogan {
+  margin-top: 0.7rem;
+  color: var(--color-primary);
+  font-family: 'Caveat', cursive;
+  font-size: clamp(2.6rem, 4vw, 4.2rem);
+  font-weight: 700;
+  line-height: 1;
+  transform: rotate(-1deg);
+}
+
+.hero-intro {
+  max-width: 540px;
+  margin: 1.6rem 0 2rem;
+  color: #4d4541;
+  font-size: clamp(1rem, 1.4vw, 1.16rem);
+  line-height: 1.75;
+}
+
+.hero-primary,
+.hero-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 0.85rem 1.5rem;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.hero-primary {
+  gap: 0.55rem;
+  color: white;
+  background: linear-gradient(135deg, #ed4765, #e85d75);
+  box-shadow: 0 10px 25px rgba(232, 93, 117, 0.3);
+}
+
+.hero-secondary {
+  color: var(--color-primary);
+  background: rgba(255, 255, 255, 0.74);
+  border: 2px solid var(--color-primary);
+}
+
+.hero-primary:hover,
+.hero-secondary:hover {
+  transform: translateY(-2px);
+}
+
+.hero-primary:hover {
+  box-shadow: 0 14px 28px rgba(232, 93, 117, 0.36);
+}
+
+.hero-secondary:hover {
+  background: white;
+}
+
+.hero-facts {
+  display: inline-grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 780px;
+  margin-top: 4.25rem;
+  padding: 1.1rem 1.4rem;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 1.25rem;
+  box-shadow: 0 15px 40px rgba(76, 48, 38, 0.13);
+  backdrop-filter: blur(12px);
+}
+
+.hero-facts > div {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.65rem;
+  padding: 0.1rem 1.15rem;
+}
+
+.hero-facts > div + div {
+  border-left: 1px solid #eadbd5;
+}
+
+.hero-facts span {
+  grid-row: span 2;
+  align-self: center;
+  color: var(--color-primary);
+  font-size: 1.05rem;
+}
+
+.hero-facts strong,
+.hero-facts small {
+  display: block;
+}
+
+.hero-facts strong {
+  color: #39312e;
+  font-size: 0.82rem;
+}
+
+.hero-facts small {
+  color: #796d68;
+  font-size: 0.74rem;
+}
+
+.hero-orb {
+  position: absolute;
+  z-index: 1;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.hero-orb-one {
+  width: 180px;
+  height: 180px;
+  right: -70px;
+  top: -85px;
+  background: rgba(255, 194, 112, 0.42);
+}
+
+.hero-orb-two {
+  width: 130px;
+  height: 130px;
+  left: -75px;
+  bottom: -55px;
+  background: rgba(232, 93, 117, 0.75);
 }
 
 .hero-blob {
@@ -91,6 +391,71 @@ body {
   transform: scale(1.05);
 }
 
+.atmosphere-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.atmosphere-card {
+  position: relative;
+  grid-column: span 5;
+  min-height: 340px;
+  overflow: hidden;
+  background: #f4e7e1;
+  border-radius: 1.5rem;
+  box-shadow: 0 12px 35px rgba(69, 42, 33, 0.1);
+}
+
+.atmosphere-card-wide {
+  grid-column: span 7;
+}
+
+.atmosphere-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(.2, .75, .25, 1);
+}
+
+.atmosphere-card::after {
+  position: absolute;
+  inset: 35% 0 0;
+  background: linear-gradient(transparent, rgba(26, 18, 16, 0.78));
+  content: '';
+  pointer-events: none;
+}
+
+.atmosphere-card:hover img {
+  transform: scale(1.035);
+}
+
+.atmosphere-card figcaption {
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1.4rem 1.5rem;
+  color: white;
+}
+
+.atmosphere-card figcaption strong,
+.atmosphere-card figcaption span {
+  display: block;
+}
+
+.atmosphere-card figcaption strong {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1.2rem;
+}
+
+.atmosphere-card figcaption span {
+  margin-top: 0.15rem;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.82rem;
+}
+
 /* Timeline events */
 .event-card {
   transition: all 0.3s ease;
@@ -131,11 +496,105 @@ body {
 
 /* Smooth reveal animation */
 .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+.js .reveal {
   opacity: 0;
   transform: translateY(20px);
   transition: all 0.6s ease;
 }
-.reveal.visible {
+
+.js .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+.footer-logo {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+@media (max-width: 1023px) {
+  .hero-photo {
+    min-height: auto;
+    background-image:
+      linear-gradient(180deg, rgba(255, 250, 244, 0.98) 0%, rgba(255, 250, 244, 0.93) 48%, rgba(255, 250, 244, 0.26) 100%),
+      url('../images/hero-toulon.webp');
+    background-position: 68% center;
+  }
+
+  .hero-copy {
+    max-width: 680px;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .hero-intro {
+    margin-inline: auto;
+  }
+
+  .hero-facts {
+    display: grid;
+    margin: 17rem auto 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .brand-link span {
+    display: none;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(3rem, 15vw, 4.2rem);
+  }
+
+  .hero-slogan {
+    font-size: clamp(2.4rem, 12vw, 3.2rem);
+  }
+
+  .hero-facts {
+    grid-template-columns: 1fr;
+    width: 100%;
+    margin-top: 14rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .hero-facts > div {
+    padding: 0.65rem 0.35rem;
+  }
+
+  .hero-facts > div + div {
+    border-top: 1px solid #eadbd5;
+    border-left: 0;
+  }
+
+  .atmosphere-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .atmosphere-card,
+  .atmosphere-card-wide {
+    grid-column: 1;
+    min-height: 270px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .js .reveal,
+  .js .reveal.visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .hero-blob,
+  .animate-bounce {
+    animation: none !important;
+  }
 }

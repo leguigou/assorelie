@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """Test complet du MCP server ASSORELIE"""
-import json, ssl, threading, time, urllib.request
+import json, os, ssl, urllib.request
 
-MCP_URL = "https://mcp.assorelie.deloffre.fr"
-MCP_KEY = "assorelie-mcp-dev"
+MCP_URL = os.environ.get("MCP_BASE_URL", "https://mcp.assorelie.deloffre.fr")
+MCP_KEY = os.environ.get("MCP_API_KEY")
 
 ssl_ctx = ssl.create_default_context()
-ssl_ctx.check_hostname = False
-ssl_ctx.verify_mode = ssl.CERT_NONE
+
+if not MCP_KEY:
+    raise SystemExit("MCP_API_KEY doit être définie dans l'environnement.")
 
 def call_tool(tool_name, args=None):
     """Appelle un outil MCP via la session SSE"""

@@ -4,18 +4,24 @@ import os, subprocess, time, json, urllib.request
 
 os.chdir("/home/guillaume/assorelie")
 
-API_KEY = "assore...024"
-
-# Créer .env
-with open(".env", "w") as f:
-    f.write(f"MCP_API_KEY={API_KEY}\n")
+API_KEY = os.environ.get("MCP_API_KEY")
+if not API_KEY:
+    raise SystemExit("MCP_API_KEY doit être définie dans l'environnement.")
 
 # Tuer ancien processus
 subprocess.run(["pkill", "-f", "mcp_server"], capture_output=True)
 time.sleep(1)
 
 # Lancer
-env = {**os.environ, "MCP_API_KEY": API_KEY, "PORT": "8921"}
+env = {
+    **os.environ,
+    "MCP_API_KEY": API_KEY,
+    "MCP_PORT": os.environ.get("MCP_PORT", "8921"),
+    "MCP_BASE_URL": os.environ.get(
+        "MCP_BASE_URL",
+        "https://mcp.assorelie.deloffre.fr",
+    ),
+}
 proc = subprocess.Popen(
     ["python3", "mcp_server.py", "--http"],
     stdout=open("/tmp/mcp_server.log", "w"),

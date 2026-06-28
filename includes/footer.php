@@ -5,9 +5,7 @@
       <!-- Brand -->
       <div>
         <div class="flex items-center gap-3 mb-4">
-          <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-lg">
-            🤝
-          </div>
+          <img src="assets/images/logo-assorelie.webp" alt="" width="42" height="42" class="footer-logo">
           <div>
             <div class="font-bold font-quicksand text-lg">ASSORELIE</div>
             <div class="text-white/50 text-xs">L'asso qui relie</div>

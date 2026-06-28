@@ -5,5 +5,10 @@
 .DS_Store
 Thumbs.db
 node_modules/
+__pycache__/
+*.py[cod]
+data/*.sqlite
+data/*.sqlite-*
+data/*.db
 .vscode/
 .idea/

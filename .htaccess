@@ -19,7 +19,7 @@ Header set Referrer-Policy "strict-origin-when-cross-origin"
 ErrorDocument 404 /404.html
 
 # Deny access to sensitive files
-<FilesMatch "\.(json|lock|md)$">
+<FilesMatch "\.(json|sqlite|sqlite3|db|wal|shm|lock|md)$">
   Require all denied
 </FilesMatch>
 

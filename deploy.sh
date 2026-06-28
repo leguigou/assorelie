@@ -23,6 +23,9 @@ docker run -d \
   --name assorelie \
   --restart unless-stopped \
   --network dokploy-network \
+  --env ASSORELIE_DB_PATH=/var/www/html/data/assorelie.sqlite \
+  --env ASSORELIE_SEED_DIR=/var/www/html/database/seeds \
+  --volume /home/guillaume/assorelie/data:/var/www/html/data \
   --label 'traefik.enable=true' \
   --label 'traefik.http.routers.assorelie.rule=Host(`assorelie.deloffre.fr`)' \
   --label 'traefik.http.routers.assorelie.entrypoints=web' \

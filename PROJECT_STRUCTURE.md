@@ -3,7 +3,7 @@
 ## Stack
 - PHP 8+ natif (zéro framework)
 - Tailwind CSS v4 (CDN)
-- JSON flat-file (pas de BDD)
+- SQLite (fichier persistant partagé par le site et le MCP)
 - AJAX pour sections dynamiques
 
 ## Structure
@@ -32,12 +32,15 @@ assorelie/
 │   ├── contact.php        # Contact + formulaire
 │   └── footer.php         # Footer + scripts
 │
+├── database/
+│   └── schema.sql         # Schéma SQLite partagé PHP/Python
 ├── data/
-│   ├── events.json        # Événements à venir
-│   └── config.json        # Infos association (email, tel, RNA, réseaux)
+│   ├── assorelie.sqlite   # BDD générée au démarrage (hors Git)
+│   ├── events.json        # Données initiales de migration
+│   └── config.json        # Données initiales de migration
 │
 └── api/
-    ├── events.php         # Endpoint AJAX → retourne events.json en JSON
+    ├── events.php         # Endpoint AJAX → lit les événements SQLite
     └── contact.php        # Endpoint AJAX → envoie email
 ```
 

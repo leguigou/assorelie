@@ -7,11 +7,33 @@ services:
     restart: unless-stopped
     expose:
       - "80"
+    environment:
+      ASSORELIE_DB_PATH: /var/www/html/data/assorelie.sqlite
+      ASSORELIE_SEED_DIR: /var/www/html/database/seeds
     networks:
       - dokploy-network
     volumes:
       - /home/guillaume/assorelie/data:/var/www/html/data
       - /home/guillaume/assorelie/assets/images/gallery:/var/www/html/assets/images/gallery
+
+  mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile.mcp
+    container_name: assorelie-mcp
+    restart: unless-stopped
+    expose:
+      - "8921"
+    environment:
+      ASSORELIE_DB_PATH: /app/data/assorelie.sqlite
+      ASSORELIE_SEED_DIR: /app/database/seeds
+      MCP_API_KEY: ${MCP_API_KEY}
+      MCP_BASE_URL: ${MCP_BASE_URL:-https://mcp.assorelie.deloffre.fr}
+      MCP_PORT: "8921"
+    networks:
+      - dokploy-network
+    volumes:
+      - /home/guillaume/assorelie/data:/app/data
 
 networks:
   dokploy-network:
