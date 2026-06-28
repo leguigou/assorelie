@@ -30,4 +30,10 @@
       <div><span>●</span><strong>Agir ensemble</strong><small>au quotidien</small></div>
     </div>
   </div>
+
+  <a href="#activites" class="hero-scroll-cue" aria-label="Découvrir nos activités">
+    <svg class="hero-scroll-icon" aria-hidden="true" viewBox="0 0 24 24">
+      <path d="m6 9 6 6 6-6"/>
+    </svg>
+  </a>
 </section>
